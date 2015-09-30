@@ -20,9 +20,9 @@ auto PI = 3.1415;
 //方向
 auto R_Direction = "";
 //动作
-auto R_Action = "stand";
+auto R_Action = "hold";
 //移动速度
-auto R_speed = 4;
+auto R_speed = 7;
 
 Scene* Game::createScene()
 {
@@ -73,11 +73,10 @@ bool Game::init()
 	
 	ArmatureDataManager::getInstance()->addArmatureFileInfo("Export/kakaxi.ExportJson");
 	auto arm = Armature::create("kakaxi");
-	auto _hero_donghua = arm;
 	arm->setScale(0.8);
 	arm->getAnimation()->play("run");
 	arm->setPosition(Point(visibleSize.width*0.2, visibleSize.height*0.7));
-	this->addChild(arm, 2,XIA_TAG);
+	this->addChild(arm, 4,XIA_TAG);
 	
 	//add sprites
 	auto alice = Sprite::create("alice.png");
@@ -121,7 +120,7 @@ bool Game::init()
 
 void Game::overStand() 
 {
-	auto hero = Armature::create("kakaxi");
+	auto hero = (Armature *)getChildByTag(XIA_TAG);
 	if ( true)
 		{
 			hero->getAnimation()->play("hold");
@@ -129,7 +128,7 @@ void Game::overStand()
 }
 
 void Game::runGame(float t){
-	auto hero = Armature::create("kakaxi");
+	auto hero = (Armature *)getChildByTag(XIA_TAG);
 if (R_Action == "run")
 {
 	if (hero != NULL)
@@ -170,18 +169,18 @@ if (R_Action == "run")
 		else if (R_Direction == "left_down")
 		{
 			hero->setScaleX(1);
+			log("left down");
 			hero->setPosition(p_hero_old.x - R_speed, p_hero_old.y - R_speed);
-
+//--
 		}
-		else if (R_Direction == "rigth_up")
+		else if (R_Direction == "right_up")
 		{
 			hero->setScaleX(-1);
 			hero->setPosition(p_hero_old.x + R_speed, p_hero_old.y + R_speed);
 		}
-		else if (R_Direction == "rigth_down")
+		else if (R_Direction == "right_down")
 		{
 			hero->setScaleX(-1);
-
 			hero->setPosition(p_hero_old.x + R_speed, p_hero_old.y - R_speed);
 
 		}
@@ -229,7 +228,7 @@ void Game::onTouchMoved1(Touch *touch, Event *event){
 	auto target = event->getCurrentTarget();
 	auto sp_dian = target->getChildByTag(YAOPOINT_TAG);
 	auto sp_yaoganBg = target->getChildByTag(YAOGAN_TAG);
-	auto sp_hero = target->getChildByTag(ALICE_TAG);
+	auto sp_hero = target->getChildByTag(XIA_TAG);
 
 	//摇起来
 	if (sp_dian != NULL && sp_yaoganBg != NULL)
@@ -317,7 +316,8 @@ void Game::onTouchEnded1(Touch *touch, Event *event){
 
 	R_Action = "hold";
 
-	auto sp_hero = target->getChildByTag(XIA_TAG);
+	auto sp_hero = (Armature *)target->getChildByTag(XIA_TAG);
+	sp_hero->getAnimation()->play("hold");
 	//sp_hero->ge;
 	//this->getChildByTag(10)->stopAction(MoveBy::create(0.5, Vec2(10, 0)));
 }
