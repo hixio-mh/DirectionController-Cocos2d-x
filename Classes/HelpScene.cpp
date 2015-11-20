@@ -59,7 +59,7 @@ bool Help::init()
 	auto particleSystem = ParticleRain::create();
 	particleSystem->setPosition(Director::getInstance()->convertToGL(Vec2(270,380)));
 	this->addChild(particleSystem);
-
+//这里我添加了一个雪花的粒子特效，但是由于资源回收的问题等，画面卡顿，甚至crash掉。。。
 
 	SimpleAudioEngine::getInstance()->playBackgroundMusic("bgm.mp3",true);
 
@@ -105,7 +105,7 @@ void Help::cleanup(){
 	SimpleAudioEngine::getInstance()->stopBackgroundMusic("bgm.mp3");
 }
 
-//�ص�����
+//»Øµ÷º¯Êý
 
 void Help::menuItemBackToMain(cocos2d::Ref* pSender)
 {
